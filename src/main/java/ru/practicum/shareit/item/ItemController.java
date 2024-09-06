@@ -16,13 +16,13 @@ public class ItemController {
     ItemService itemService = new ItemServiceImpl();
 
     @PostMapping
-    public Item addItem(@RequestHeader("X-Later-User-Id") Long userId,
+    public Item addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                         @RequestBody ItemDto itemDto) {
         return itemService.addItem(itemDto,userId);
     }
 
     @PatchMapping
-    public Item updateItem(@RequestHeader("X-Later-User-Id") Long userId,
+    public Item updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                            @RequestBody ItemDto itemDto) {
         return itemService.updateItem(itemDto,userId);
     }
@@ -33,7 +33,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getItems(@RequestHeader("X-Later-User-Id") Long ownerId) {
+    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long ownerId) {
         return itemService.getItems(ownerId);
     }
 }
