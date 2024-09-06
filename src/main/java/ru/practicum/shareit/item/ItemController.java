@@ -28,7 +28,7 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto addLike(@PathVariable("itemId") long itemId) {
+    public ItemDto getItem(@PathVariable("itemId") long itemId) {
         return itemService.getItem(itemId);
     }
 
