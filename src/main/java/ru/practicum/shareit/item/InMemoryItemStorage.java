@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class InMemoryItemStorage {
     private final InMemoryUserStorage inMemoryUserStorage;
     private final HashMap<Long, Item> items = new HashMap<>();
-    
+
     public Item addItem(Item item) {
         if (item.getAvailable() == null) {
             throw new ValidationException("Статус должен быть указан");
