@@ -33,7 +33,7 @@ public class InMemoryItemStorage {
     }
 
     public Item updateItem(ItemDto itemDto, Long userId, Long itemId) {
-        if (userId.equals(getItem(itemId).getOwnerId())) {
+        if (!userId.equals(getItem(itemId).getOwnerId())) {
             throw new ForbiddenException("Только владелец предмета имеет право его редактировать");
         }
         Item newItem = ItemMapper.toItem(itemDto,userId,itemId);
