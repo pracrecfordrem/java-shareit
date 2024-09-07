@@ -8,7 +8,9 @@ import java.util.Collection;
 @AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
+
     private final InMemoryUserStorage inMemoryUserStorage;
+
     @Override
     public Collection<User> getUsers() {
         return inMemoryUserStorage.getUsers();
