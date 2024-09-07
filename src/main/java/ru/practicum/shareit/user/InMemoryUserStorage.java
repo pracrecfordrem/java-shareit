@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exceptions.ConflictException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
@@ -8,7 +9,9 @@ import ru.practicum.shareit.user.model.User;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 
+@Repository
 public class InMemoryUserStorage {
     HashMap<Long,User> users = new HashMap<>();
     HashSet<String> emails = new HashSet<>();
@@ -55,7 +58,8 @@ public class InMemoryUserStorage {
     }
 
     public User getUser(long userId) {
-        return users.get(userId);
+        //throw new ConflictException("Пользователь  не существует");
+        return Optional.ofNullable(users.get(userId)).orElseThrow(() -> new NotFoundException("Пользователь  не существует"));
     }
 
     private long getId() {

@@ -1,16 +1,24 @@
 package ru.practicum.shareit.item;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.InMemoryUserStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemServiceImpl implements ItemService{
-    InMemoryItemStorage inMemoryItemStorage = new InMemoryItemStorage();
+@Service
+@AllArgsConstructor
+public class ItemServiceImpl implements ItemService {
+
+    private final InMemoryItemStorage inMemoryItemStorage;
 
     @Override
     public Item addItem(ItemDto itemDto, Long userId) {
+        System.out.println("here");
         return inMemoryItemStorage.addItem(ItemMapper.toItem(itemDto,userId));
     }
 

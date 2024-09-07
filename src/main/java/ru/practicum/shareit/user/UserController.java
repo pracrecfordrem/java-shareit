@@ -1,17 +1,19 @@
 package ru.practicum.shareit.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/users")
+@AllArgsConstructor
 public class UserController {
-    UserService userService = new UserServiceImpl();
+    UserService userService;
 
     @GetMapping
-    public List<User> getUsers() {
+    public Collection<User> getUsers() {
         return userService.getUsers();
     }
 

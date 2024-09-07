@@ -13,9 +13,8 @@ import ru.practicum.shareit.exceptions.ValidationException;
 
 import java.util.Map;
 
-
-@Slf4j
 @RestControllerAdvice
+@Slf4j
 public class ErrorHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class, ValidationException.class})

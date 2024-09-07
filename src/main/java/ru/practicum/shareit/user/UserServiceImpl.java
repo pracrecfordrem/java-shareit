@@ -1,14 +1,20 @@
 package ru.practicum.shareit.user;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.practicum.shareit.user.model.User;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
+@Service
 public class UserServiceImpl implements UserService {
-    InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
+    private final InMemoryUserStorage inMemoryUserStorage;
     @Override
-    public List<User> getUsers() {
-        return (List<User>) inMemoryUserStorage.getUsers();
+    public Collection<User> getUsers() {
+        return inMemoryUserStorage.getUsers();
     }
 
     @Override
