@@ -34,7 +34,7 @@ public class ItemServiceImpl implements ItemService {
     public Collection<ItemDto> getItems(Long ownerId) {
         List<ItemDto> res = new ArrayList<>();
         for (Item item: inMemoryItemStorage.getItems()) {
-            if (item.getOwnerId() == ownerId) {
+            if (item.getOwnerId().equals(ownerId)) {
                 res.add(ItemMapper.toItemDto(item));
             }
         }
