@@ -12,15 +12,15 @@ public class Item {
     private long id;
     private String name;
     private String description;
-    private boolean isAvailable;
+    private Boolean available;
     private Long ownerId;
     private ItemRequest request;
 
-    public Item(long id, String name, String description, boolean isAvailable, Long ownerId, ItemRequest request) {
+    public Item(long id, String name, String description, Boolean available, Long ownerId, ItemRequest request) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.isAvailable = isAvailable;
+        this.available = available;
         this.ownerId = ownerId;
         this.request = request;
     }

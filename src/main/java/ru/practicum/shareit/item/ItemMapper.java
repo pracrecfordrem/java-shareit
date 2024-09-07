@@ -10,18 +10,28 @@ public class ItemMapper {
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
-                item.isAvailable(),
+                item.getAvailable(),
+                item.getRequest()
+        );
+    }
+
+    public static Item toItem(ItemDto item, Long userId, Long itemId) {
+        return new Item(
+                itemId,
+                item.getName(),
+                item.getDescription(),
+                item.getAvailable(),
+                userId,
                 item.getRequest()
         );
     }
 
     public static Item toItem(ItemDto item, Long userId) {
-        System.out.println("heree");
         return new Item(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
-                item.isAvailable(),
+                item.getAvailable(),
                 userId,
                 item.getRequest()
         );

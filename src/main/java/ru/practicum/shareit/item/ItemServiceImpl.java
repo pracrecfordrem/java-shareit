@@ -2,12 +2,11 @@ package ru.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.InMemoryUserStorage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -18,13 +17,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item addItem(ItemDto itemDto, Long userId) {
-        System.out.println("here");
         return inMemoryItemStorage.addItem(ItemMapper.toItem(itemDto,userId));
     }
 
     @Override
-    public Item updateItem(ItemDto itemDto, Long userId) {
-        return inMemoryItemStorage.updateItem(ItemMapper.toItem(itemDto,userId));
+    public Item updateItem(ItemDto itemDto, Long userId, Long itemId) {
+        return inMemoryItemStorage.updateItem(itemDto,userId,itemId);
     }
 
     @Override
@@ -33,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getItems(Long ownerId) {
+    public Collection<ItemDto> getItems(Long ownerId) {
         List<ItemDto> res = new ArrayList<>();
         for (Item item: inMemoryItemStorage.getItems()) {
             if (item.getOwnerId() == ownerId) {
@@ -41,6 +39,20 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         return res;
+    }
+
+    @Override
+    public Collection<ItemDto> getAllItems() {
+        List<ItemDto> res = new ArrayList<>();
+        for (Item item: inMemoryItemStorage.getItems()) {
+            res.add(ItemMapper.toItemDto(item));
+        }
+        return res;
+    }
+
+    @Override
+    public Collection<ItemDto> getItemsBySearch(String searchText) {
+        return inMemoryItemStorage.getItemsBySearch(searchText);
     }
 
 

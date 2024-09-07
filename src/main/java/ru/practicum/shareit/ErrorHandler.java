@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.practicum.shareit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.shareit.exceptions.ConflictException;
+import ru.practicum.shareit.exceptions.ForbiddenException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
 
@@ -40,6 +41,16 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String, String> handleConflictException(final ConflictException e) {
+        log.error("Ошибка с входными параметрами: {}.", e.getMessage());
+        return Map.of(
+                "error", "Ошибка с входными параметрами.",
+                "description", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Map<String, String> handleForbiddenException(final ForbiddenException e) {
         log.error("Ошибка с входными параметрами: {}.", e.getMessage());
         return Map.of(
                 "error", "Ошибка с входными параметрами.",

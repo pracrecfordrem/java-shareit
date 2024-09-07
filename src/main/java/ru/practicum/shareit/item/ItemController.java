@@ -1,18 +1,14 @@
 package ru.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.UserService;
 
-import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
+import java.util.Collection;
+
+
 @RestController
 @RequestMapping("/items")
 @AllArgsConstructor
@@ -23,14 +19,14 @@ public class ItemController {
     @PostMapping
     public Item addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                         @RequestBody ItemDto itemDto) {
-        System.out.println(itemDto + " " + userId);
         return itemService.addItem(itemDto,userId);
     }
 
-    @PatchMapping
+    @PatchMapping("/{itemId}")
     public Item updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                           @RequestBody ItemDto itemDto) {
-        return itemService.updateItem(itemDto,userId);
+                           @RequestBody ItemDto itemDto,
+                           @PathVariable("itemId") long itemId) {
+        return itemService.updateItem(itemDto,userId,itemId);
     }
 
     @GetMapping("/{itemId}")
@@ -39,7 +35,18 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long ownerId) {
+    public Collection<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long ownerId) {
         return itemService.getItems(ownerId);
+    }
+
+    @GetMapping("/search")
+    public Collection<ItemDto> search(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                      @PathVariable("text") @RequestParam String text) {
+        return itemService.getItemsBySearch(text);
+    }
+
+    @GetMapping("/all")
+    public Collection<ItemDto> getItems() {
+        return itemService.getAllItems();
     }
 }

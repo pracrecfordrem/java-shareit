@@ -58,7 +58,6 @@ public class InMemoryUserStorage {
     }
 
     public User getUser(long userId) {
-        //throw new ConflictException("Пользователь  не существует");
         return Optional.ofNullable(users.get(userId)).orElseThrow(() -> new NotFoundException("Пользователь  не существует"));
     }
 
