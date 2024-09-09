@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exceptions.ForbiddenException;
-import ru.practicum.shareit.exceptions.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.InMemoryUserStorage;
@@ -19,13 +18,6 @@ public class InMemoryItemStorage {
     private final HashMap<Long, Item> items = new HashMap<>();
 
     public Item addItem(Item item) {
-        if (item.getAvailable() == null) {
-            throw new ValidationException("Статус должен быть указан");
-        } else if (item.getName() == null || item.getName().isEmpty()) {
-            throw new ValidationException("Наименование предмета должно быть указано");
-        } else if (item.getDescription() == null || item.getDescription().isEmpty()) {
-            throw new ValidationException("Описание предмета должно быть указано");
-        }
         inMemoryUserStorage.getUser(item.getOwnerId());
         item.setId(getId());
         items.put(item.getId(), item);

@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user;
 
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.model.User;
 
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user) {
+    public User addUser(@Validated @RequestBody User user) {
         return userService.addUser(user);
     }
 

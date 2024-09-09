@@ -21,12 +21,8 @@ public class InMemoryUserStorage {
     }
 
     public User addUser(User user) {
-        if (user.getEmail() == null) {
-            throw new ValidationException("email не должен быть пустым");
-        } else if (emails.contains(user.getEmail())) {
-            throw new ConflictException("email дожлны быть уникальными");
-        } else if (user.getEmail().indexOf('@') == -1) {
-            throw new ValidationException("Некорректный email");
+        if (emails.contains(user.getEmail())) {
+            throw new ConflictException("email должен быть уникальными");
         }
         if (user.getId() == null)  {
             user.setId(getId());
