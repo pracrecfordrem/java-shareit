@@ -14,10 +14,11 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private final InMemoryItemStorage inMemoryItemStorage;
+    private final ItemRepository itemRepository;
 
     @Override
     public Item addItem(ItemDto itemDto, Long userId) {
-        return inMemoryItemStorage.addItem(ItemMapper.toItem(itemDto,userId));
+        return itemRepository.save(ItemMapper.toItem(itemDto,userId));
     }
 
     @Override
