@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 
-@Repository
 public class InMemoryUserStorage {
     HashMap<Long,User> users = new HashMap<>();
     HashSet<String> emails = new HashSet<>();
@@ -53,12 +52,12 @@ public class InMemoryUserStorage {
         }
     }
 
-    public User getUser(long userId) {
+    public User getUser(Long userId) {
         return Optional.ofNullable(users.get(userId)).orElseThrow(() -> new NotFoundException("Пользователь  не существует"));
     }
 
-    private long getId() {
-        long lastId = users.values()
+    private Long getId() {
+        Long lastId = users.values()
                 .stream()
                 .mapToLong(User::getId)
                 .max()
@@ -74,7 +73,7 @@ public class InMemoryUserStorage {
         }
     }
 
-    public User deleteUser(long userId) {
+    public User deleteUser(Long userId) {
         User user = users.get(userId);
         if (user != null) {
             users.remove(userId);

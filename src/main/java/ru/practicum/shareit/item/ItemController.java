@@ -20,18 +20,19 @@ public class ItemController {
     @PostMapping
     public Item addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                         @Validated @RequestBody ItemDto itemDto) {
+        System.out.println(userId + " " + itemDto);
         return itemService.addItem(itemDto,userId);
     }
 
     @PatchMapping("/{itemId}")
     public Item updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                            @RequestBody ItemDto itemDto,
-                           @PathVariable("itemId") long itemId) {
+                           @PathVariable("itemId") Long itemId) {
         return itemService.updateItem(itemDto,userId,itemId);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItem(@PathVariable("itemId") long itemId) {
+    public ItemDto getItem(@PathVariable("itemId") Long itemId) {
         return itemService.getItem(itemId);
     }
 

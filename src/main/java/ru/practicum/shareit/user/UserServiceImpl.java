@@ -9,30 +9,30 @@ import java.util.Collection;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final InMemoryUserStorage inMemoryUserStorage;
+    private final UserRepository userRepository;
 
     @Override
     public Collection<User> getUsers() {
-        return inMemoryUserStorage.getUsers();
+        return null;//inMemoryUserStorage.getUsers();
     }
 
     @Override
     public User addUser(User user) {
-        return inMemoryUserStorage.addUser(user);
+        return userRepository.save(user);
     }
 
     @Override
     public User updateUser(User user, Long userId) {
-        return inMemoryUserStorage.updateUser(user, userId);
+        return null;//inMemoryUserStorage.updateUser(user, userId);
     }
 
     @Override
-    public User getUser(long userId) {
-        return inMemoryUserStorage.getUser(userId);
+    public User getUser(Long userId) {
+        return null;//inMemoryUserStorage.getUser(userId);
     }
 
     @Override
-    public User deleteUser(long userId) {
-        return inMemoryUserStorage.deleteUser(userId);
+    public User deleteUser(Long userId) {
+        return null;//inMemoryUserStorage.deleteUser(userId);
     }
 }

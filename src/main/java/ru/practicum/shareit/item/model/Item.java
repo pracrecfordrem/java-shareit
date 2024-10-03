@@ -1,8 +1,9 @@
 package ru.practicum.shareit.item.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 /**
@@ -13,7 +14,7 @@ import ru.practicum.shareit.user.model.User;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private Boolean available;
@@ -24,12 +25,11 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     private ItemRequest request;
 
-    public Item(long id, String name, String description, Boolean available, User user, ItemRequest request) {
-        this.id = id;
+    public Item(String name, String description, Boolean available, User user, ItemRequest request) {
         this.name = name;
         this.description = description;
         this.available = available;
-        this.ownerId = ownerId;
+        this.user = user;
         this.request = request;
     }
 }
