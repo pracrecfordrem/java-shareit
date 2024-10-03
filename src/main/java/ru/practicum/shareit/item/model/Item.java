@@ -11,6 +11,7 @@ import ru.practicum.shareit.user.model.User;
  */
 @Data
 @Entity(name = "items")
+@AllArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +26,7 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY)
     private ItemRequest request;
 
-    public Item(String name, String description, Boolean available, User user, ItemRequest request) {
-        this.name = name;
-        this.description = description;
-        this.available = available;
-        this.user = user;
-        this.request = request;
+    public Item() {
     }
 }
 
