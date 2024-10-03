@@ -11,8 +11,8 @@ import java.time.Instant;
 @AllArgsConstructor
 public class BookingDto {
     private Long id;
-    private Instant startDate;
-    private Instant endDate;
+    private String startDate;
+    private String endDate;
     private Long itemId;
     private Long bookerId;
     private Status status = Status.WAITING;
