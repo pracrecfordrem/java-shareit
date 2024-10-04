@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity(name = "bookings")
 @AllArgsConstructor
-public class Booking {
+public class Booking implements Comparable<Booking>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,5 +25,19 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booker_id")
     private User booker;
-    private Status status = Status.WAITING;
+    private String status = "WAITING";
+
+    public Booking() {
+    }
+
+    @Override
+    public int compareTo(Booking o) {
+        if (o.getStart().isBefore(this.getStart())) {
+            return 1;
+        } else if (o.getStart().isAfter(this.getStart())) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }
