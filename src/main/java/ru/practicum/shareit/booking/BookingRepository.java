@@ -39,7 +39,8 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     Booking findNextBooking(Long itemId, Long userId);
 
 
-    Optional<Booking> findBookingByBooker_idAndItem_id(Long booker_id, Long item_id);
+    Optional<Booking> findBookingByBooker_idAndItem_id(Long bookerId, Long itemId);
+
     @Query("select u " +
             " from ru.practicum.shareit.booking.model.Booking b" +
             " join b.item i" +

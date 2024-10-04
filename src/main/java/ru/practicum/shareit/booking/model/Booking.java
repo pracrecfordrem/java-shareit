@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity(name = "bookings")
 @AllArgsConstructor
-public class Booking implements Comparable<Booking>{
+public class Booking implements Comparable<Booking> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

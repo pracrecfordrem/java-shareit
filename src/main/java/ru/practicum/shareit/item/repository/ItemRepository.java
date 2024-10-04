@@ -11,7 +11,9 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
             "join i.user as u " +
             "where u.id = ?1")
     List<Item> getAllByOwnerId(Long ownerId);
+
     List<Item> findByNameContainingIgnoreCase(String text);
+
     List<Item> findByNameNull();
 
 }
