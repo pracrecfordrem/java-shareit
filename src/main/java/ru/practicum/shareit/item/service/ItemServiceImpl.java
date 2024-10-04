@@ -1,11 +1,20 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.BookingRepository;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingMapper;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.ValidationException;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.repository.CommentRepository;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.user.UserRepository;
@@ -22,6 +31,8 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final ItemRequestRepository itemRequestRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final BookingRepository bookingRepository;
 
     @Override
     public Item addItem(ItemDto itemDto, Long userId) {
@@ -48,8 +59,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto getItem(Long itemId) {
-        return ItemMapper.toItemDto(itemRepository.findById(itemId).orElseThrow(()-> new NotFoundException("Item not found")));//ItemMapper.toItemDto(inMemoryItemStorage.getItem(itemId));
+    public ItemDto getItem(Long userId, Long itemId) {
+        Booking lastBooking = bookingRepository.findLastBooking(itemId, userId);
+        Booking nextBooking = bookingRepository.findNextBooking(itemId, userId);
+        BookingDto lastBookingDto = lastBooking == null
+                ? null : BookingMapper.toBookingDto(lastBooking);
+        BookingDto nextBookingDto = nextBooking == null
+                ? null : BookingMapper.toBookingDto(nextBooking);
+        List<Comment> comments = commentRepository.findCommentsByItem_Id(itemId);
+        List<CommentDto> commentDtoList  = comments.stream().map(ItemMapper::toCommentDto).toList();
+        return ItemMapper.toItemDtoExtended(itemRepository.findById(itemId).orElseThrow(()-> new NotFoundException("Item not found"))
+                                    ,lastBookingDto,nextBookingDto,commentDtoList);
     }
 
     @Override
@@ -78,5 +98,18 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         return res;
+    }
+
+    @Override
+    public CommentDto postComment(Long userId, Long itemId, CommentDto commentDto) {
+        Item item = itemRepository.findById(itemId).orElseThrow(()-> new NotFoundException("Item not found"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new NotFoundException("User not found"));
+        Booking booking = bookingRepository.findBookingByBooker_idAndItem_id(userId,itemId).orElseThrow(() -> new ValidationException("Booking didn't happen"));
+        Long commentId = commentRepository.save(ItemMapper.toComment(commentDto,item,user)).getId();
+        CommentDto resultCommentDto =  ItemMapper.toCommentDto(commentRepository.findById(commentId).get());
+        if (resultCommentDto.getCreated().isBefore(booking.getEnd())) {
+            throw new ValidationException("Trying to comment before using an item");
+        }
+        return resultCommentDto;
     }
 }

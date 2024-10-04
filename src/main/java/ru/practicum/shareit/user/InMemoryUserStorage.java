@@ -1,6 +1,5 @@
 package ru.practicum.shareit.user;
 
-import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exceptions.ConflictException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
