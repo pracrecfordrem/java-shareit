@@ -66,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
                 ? null : BookingMapper.toBookingDto(lastBooking);
         BookingDto nextBookingDto = nextBooking == null
                 ? null : BookingMapper.toBookingDto(nextBooking);
-        List<Comment> comments = commentRepository.findCommentsByItem_Id(itemId);
+        List<Comment> comments = commentRepository.findCommentsByItemId(itemId);
         List<CommentDto> commentDtoList  = comments.stream().map(ItemMapper::toCommentDto).toList();
         return ItemMapper.toItemDtoExtended(itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found")),
                 lastBookingDto,nextBookingDto,commentDtoList);
@@ -104,7 +104,7 @@ public class ItemServiceImpl implements ItemService {
     public CommentDto postComment(Long userId, Long itemId, CommentDto commentDto) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
-        Booking booking = bookingRepository.findBookingByBooker_idAndItem_id(userId,itemId).orElseThrow(() ->
+        Booking booking = bookingRepository.findBookingByBookerIdAndItemId(userId,itemId).orElseThrow(() ->
                 new ValidationException("Booking didn't happen"));
         Long commentId = commentRepository.save(ItemMapper.toComment(commentDto,item,user)).getId();
         CommentDto resultCommentDto =  ItemMapper.toCommentDto(commentRepository.findById(commentId).get());

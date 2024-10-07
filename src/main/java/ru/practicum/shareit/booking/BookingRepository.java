@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.user.model.User;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     Booking findNextBooking(Long itemId, Long userId);
 
 
-    Optional<Booking> findBookingByBooker_idAndItem_id(Long bookerId, Long itemId);
+    Optional<Booking> findBookingByBookerIdAndItemId(Long bookerId, Long itemId);
 
     @Query("select u " +
             " from ru.practicum.shareit.booking.model.Booking b" +
@@ -52,23 +54,10 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
             "select b.* " +
             "  from bookings b" +
             " where b.booker_id = ?1 " +
-            "   and b.status = 'WAITING'")
-    List<Booking> findAllByBookerAndStateWaiting(Long userId);
-
-    @Query(nativeQuery = true, value =
-            "select b.* " +
-            "  from bookings b" +
-            " where b.booker_id = ?1 " +
-            "   and b.status = 'REJECTED'")
-    List<Booking> findAllByBookerAndStateRejected(Long userId);
-
-    @Query(nativeQuery = true, value =
-            "select b.* " +
-            "  from bookings b" +
-            " where b.booker_id = ?1 " +
-            "   and b.start_date < now() " +
-            "   and b.end_date > now()")
-    List<Booking> findAllByBookerAndStateCurrent(Long userId);
+            "   and b.status like '%' || ?2 || '%'" +
+            "   and b.start_date < ?3" +
+            "   and b.end_date > ?4")
+    List<Booking> findAllByBookerAndState(Long userId, String status, LocalDateTime start, LocalDateTime end);
 
     @Query(nativeQuery = true, value =
             "select b.* " +
@@ -87,6 +76,38 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query(nativeQuery = true, value =
             "select b.* " +
             "  from bookings b" +
-            " where b.booker_id = ?1 ")
-    List<Booking> findAllByBookerAndStateAll(Long userId);
+            "  join items i" +
+            "    on i.id = b.item_id" +
+            " where i.owner_id = ?1 " +
+            "   and b.status like '%' || ?2 || '%'" +
+            "   and b.start_date < ?3" +
+            "   and b.end_date > ?4")
+    List<Booking> findAllByOwnerAndState(Long userId, String rejected, LocalDateTime max, LocalDateTime min);
+
+    @Query(nativeQuery = true, value =
+            "select b.* " +
+            "  from bookings b" +
+            "  join items i" +
+            "    on i.id = b.item_id" +
+            " where i.owner_id = ?1 " +
+            "   and b.start_date > now()")
+    List<Booking> findAllByOwnerAndStateFuture(Long userId);
+
+    @Query(nativeQuery = true, value =
+            "select b.* " +
+            "  from bookings b" +
+            "  join items i" +
+            "    on i.id = b.item_id" +
+            " where i.owner_id = ?1 " +
+            "   and b.end_date < now()")
+    List<Booking> findAllByOwnerAndStatePast(Long userId);
+
+    @Query(nativeQuery = true, value =
+            "select b.* " +
+            "  from bookings b" +
+            " where b.item_id = ?1 " +
+            "   and b.start_date <= ?2" +
+            "   and b.end_date >= ?2" +
+            "   and b.status != 'REJECTED'")
+    List<Booking> findAllItemBookings(Long itemId, LocalDateTime start);
 }

@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
-
 import java.util.List;
 
 
@@ -32,39 +31,15 @@ public class BookingController {
         return bookingService.getBookingByOwnerOrBookingAuthor(userId,bookingId);
     }
 
+    @GetMapping("/owner")
+    public List<Booking> getBookingByOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                             @RequestParam(defaultValue = "ALL",required = false) String state) {
+        return bookingService.getBookingByOwner(userId,state);
+    }
+
     @GetMapping
     public List<Booking> getBookingByBookingAuthor(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                             @RequestParam(defaultValue = "ALL",required = false) String state) {
+                                                   @RequestParam(defaultValue = "ALL",required = false) String state) {
         return bookingService.getBookingByBookingAuthor(userId,state);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
