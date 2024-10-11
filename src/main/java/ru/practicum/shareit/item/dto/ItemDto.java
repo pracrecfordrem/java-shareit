@@ -2,28 +2,38 @@ package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.practicum.shareit.request.ItemRequest;
+import lombok.RequiredArgsConstructor;
+import ru.practicum.shareit.booking.dto.BookingDto;
 
-/**
- * TODO Sprint add-controllers.
- */
+import java.util.List;
+
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class ItemDto {
-    private long id;
+    private Long id;
     @NotEmpty(message = "Наименование предмета не должно быть пустым")
     private String name;
     @NotEmpty(message = "Описание предмета не должно быть пустым)")
     private String description;
     @NotNull(message = "Статус доступности предмета не должно быть пустым)")
     private Boolean available;
-    private ItemRequest request;
+    private Long requestId;
+    private Long ownerId;
+    private BookingDto lastBooking;
+    private BookingDto nextBooking;
+    private List<CommentDto> comments;
 
-    public ItemDto(long id, String name, String description, Boolean available, ItemRequest request) {
+
+    public ItemDto(Long id, String name, String description, Boolean available, Long requestId, Long ownerId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.available = available;
-        this.request = request;
+        this.requestId = requestId;
+        this.ownerId = ownerId;
     }
+
 }
