@@ -40,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
         if (itemDto.getRequestId() == null) {
             request = null;
         } else {
-            request = itemRequestRepository.findById(itemDto.getRequestId()).get();
+            request = itemRequestRepository.findById(itemDto.getRequestId()).orElseThrow(() -> new NotFoundException("Request not found"));
         }
         User owner = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
         return itemRepository.save(ItemMapper.toItem(itemDto,request,owner));
