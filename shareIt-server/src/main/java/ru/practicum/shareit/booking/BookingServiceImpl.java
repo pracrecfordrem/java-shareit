@@ -48,7 +48,7 @@ public class BookingServiceImpl {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
         User user = bookingRepository.findUserByBooking(bookingId);
         if (!user.getId().equals(userId)) {
-            throw new ForbiddenException("Only an owner of requested item can approve or dissaprove booking");
+            throw new ForbiddenException("Only an owner of requested item can approve or disapprove booking");
         } else if (booking.getStatus().equals("REJECTED") || booking.getStatus().equals("APPROVED")) {
             throw new ValidationException("Attempt to approve already approved or rejected booking");
         }

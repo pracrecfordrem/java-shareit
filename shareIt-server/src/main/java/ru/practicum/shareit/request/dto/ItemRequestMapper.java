@@ -1,12 +1,10 @@
 package ru.practicum.shareit.request.dto;
 
-import ru.practicum.shareit.item.dto.ItemForRequest;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ItemRequestMapper {

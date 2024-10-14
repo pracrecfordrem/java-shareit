@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
 
-
+@Validated
 @RestController
 @RequestMapping("/items")
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public class ItemController {
 
     @PostMapping
     public Item addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                        @Validated @RequestBody ItemDto itemDto) {
+                        @Valid @RequestBody ItemDto itemDto) {
         return itemService.addItem(itemDto,userId);
     }
 
