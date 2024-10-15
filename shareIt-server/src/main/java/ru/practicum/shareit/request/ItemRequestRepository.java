@@ -10,6 +10,7 @@ import java.util.List;
 public interface ItemRequestRepository extends JpaRepository<ItemRequest,Long> {
 
     List<ItemRequest> findAllByRequesterId(Long ownerId);
+
     @Query(nativeQuery = true,
           value = "select r.*" +
                   "  from requests r" +

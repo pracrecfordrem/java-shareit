@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "requests")
-public class ItemRequest implements Comparable<ItemRequest>{
+public class ItemRequest implements Comparable<ItemRequest> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

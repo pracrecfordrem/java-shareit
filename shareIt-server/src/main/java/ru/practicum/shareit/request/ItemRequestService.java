@@ -1,6 +1,5 @@
 package ru.practicum.shareit.request;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.model.ItemRequest;
 
