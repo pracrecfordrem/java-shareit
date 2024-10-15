@@ -1,6 +1,5 @@
-package ru.practicum.shareit.user.dto;
+package ru.practicum.shareit.request.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDto {
+public class RequestDto {
     @NotNull
-    private String name;
-    @Email
-    @NotNull
-    private String email;
+    private String description;
 }

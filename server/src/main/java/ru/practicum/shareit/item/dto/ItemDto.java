@@ -14,11 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemDto {
     private Long id;
-    @NotEmpty(message = "Наименование предмета не должно быть пустым")
     private String name;
-    @NotEmpty(message = "Описание предмета не должно быть пустым)")
     private String description;
-    @NotNull(message = "Статус доступности предмета не должно быть пустым)")
     private Boolean available;
     private Long requestId;
     private Long ownerId;
