@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -27,17 +28,17 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public ResponseEntity<Object> updateUser(@RequestBody UserRequestDto requestDto,
-                                             @PathVariable Long userId) {
+                                             @Positive @PathVariable Long userId) {
         return userClient.updateUser(requestDto, userId);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Object> getUser(@PathVariable Long userId) {
+    public ResponseEntity<Object> getUser(@Positive @PathVariable Long userId) {
         return userClient.getUser(userId);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Object> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<Object> deleteUser(@Positive @PathVariable Long userId) {
         return userClient.deleteUser(userId);
     }
 }

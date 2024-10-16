@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingMapper;
@@ -28,6 +29,7 @@ public class BookingServiceImpl {
         this.itemRepository = itemRepository;
     }
 
+    @Transactional
     public Booking addBooking(BookingDto bookingDto, Long userId) {
         User booker = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
         Item item = itemRepository.findById(bookingDto.getItemId()).orElseThrow(() -> new NotFoundException("Item not found"));
@@ -44,6 +46,7 @@ public class BookingServiceImpl {
         return bookingRepository.save(BookingMapper.toBooking(bookingDto,item,booker));
     }
 
+    @Transactional
     public Booking answerBooking(Long bookingId, Boolean approved, Long userId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
         User user = bookingRepository.findUserByBooking(bookingId);

@@ -2,6 +2,7 @@ package ru.practicum.shareit.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.InternalServerException;
@@ -26,6 +27,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private final ObjectMapper objectMapper;
     private final ItemRepository itemRepository;
 
+    @Transactional
     public ItemRequest addRequest(Long userId, String itemDescription) {
         Map<String,String> map;
         try {

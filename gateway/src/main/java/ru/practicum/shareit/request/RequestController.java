@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +19,18 @@ public class RequestController {
     private final RequestClient requestClient;
 
     @PostMapping
-    public ResponseEntity<Object> createRequest(@RequestHeader("X-Sharer-User-Id") long userId,
-                                             @RequestBody @Valid RequestDto requestDto) {
+    public ResponseEntity<Object> createRequest(@Positive @RequestHeader("X-Sharer-User-Id") long userId,
+                                                @RequestBody @Valid RequestDto requestDto) {
         return requestClient.createRequest(userId,requestDto);
     }
 
     @GetMapping
-    public ResponseEntity<Object> getRequests(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public ResponseEntity<Object> getRequests(@Positive @RequestHeader("X-Sharer-User-Id") long userId) {
         return requestClient.getRequests(userId);
     }
 
     @GetMapping("{requestId}")
-    public ResponseEntity<Object> getRequestById(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long requestId) {
+    public ResponseEntity<Object> getRequestById(@Positive @RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long requestId) {
         return requestClient.getRequestById(userId,requestId);
     }
 }

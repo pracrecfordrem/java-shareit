@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.NotFoundException;
@@ -17,11 +18,13 @@ public class UserServiceImpl implements UserService {
         return null;//inMemoryUserStorage.getUsers();
     }
 
+    @Transactional
     @Override
     public User addUser(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public User updateUser(User user, Long userId) {
         User updatedUser = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
+    @Transactional
     @Override
     public User deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
